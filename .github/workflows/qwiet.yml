@@ -32,6 +32,14 @@ jobs:
     - name: Run Harness Scan
       shell: bash
       run: |
+        dotnet restore "One Note.sln"
         ${GITHUB_WORKSPACE}/sl analyze --tag branch=${{ github.head_ref }} --verbose --wait --app "${GITHUB_REPOSITORY#*/}" .
+      env:
+        SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
+
+    - name: Run Harness Scan
+      shell: bash
+      run: |
+        ${GITHUB_WORKSPACE}/sl analyze --tag branch=${{ github.head_ref }} --verbose --wait --app "${GITHUB_REPOSITORY#*/}" --tsql .
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
